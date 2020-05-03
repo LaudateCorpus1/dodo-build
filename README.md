@@ -1,12 +1,14 @@
 [![build-test](https://github.com/cacoco/dodo-build/workflows/build-test/badge.svg?branch=master)](https://github.com/cacoco/dodo-build/actions/)
 # Dodo Build Github Action
 
-A GitHub Action to run the Twitter [Dodo](https://github.com/twitter/dodo) project builder.
+A GitHub Action to run [Dodo](https://github.com/twitter/dodo), the Twitter OSS project builder.
 
 ## Usage:
 
 In your GitHub Actions workflow, create a "dodo-build" job which will run the builder.
-Then specify this job in the [`jobs.<job_id>.needs`](https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idneeds)
+Then specify this job in the [`jobs.<job_id>.needs`](https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idneeds). 
+
+Note: it is best if this action is used with caches for maven, ivy, and the Dodo project builder state.
 
 ```diff
 +++ .github/workflows/ci.yml

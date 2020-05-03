@@ -63,8 +63,6 @@ local.*
 
 .DS_Store
 
-node_modules
-
 lib/core/metadata.js
 lib/core/MetadataBlog.js
 
@@ -136,4 +134,3 @@ Thumbs.db
 
 # Ignore built ts files
 __tests__/runner/*
-lib/**/*
