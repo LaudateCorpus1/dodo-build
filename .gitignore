@@ -1,5 +1,5 @@
 # Dependency directory
-node_modules
+#node_modules
 
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
 # Logs
@@ -39,7 +39,7 @@ bower_components
 .cache
 .history
 .lib/
-dist/*
+#dist/*
 target/
 lib_managed/
 src_managed/
