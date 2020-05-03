@@ -7,6 +7,7 @@ inputs:
     default: 'develop'
   project:
     description: 'Project to build'
+    default: 'all'
   scala-version:
     description: 'Scala version'
     default: 'all'

@@ -1,7 +1,4 @@
-<p align="center">
-  <a href="https://github.com/cacoco/dodo-build/actions"><img alt="dodo-build status" src="https://github.com/cacoco/dodo-build/workflows/build-test/badge.svg"></a>
-</p>
-
+[![build-test](https://github.com/cacoco/dodo-build/workflows/build-test/badge.svg?branch=master)](https://github.com/cacoco/dodo-build/actions/)
 # Dodo Build Github Action
 
 A GitHub Action to run the Twitter [Dodo](https://github.com/twitter/dodo) project builder.
