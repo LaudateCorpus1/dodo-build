@@ -10,6 +10,9 @@ lerna-debug.log*
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
+node_modules/*
+!node_modules/@actions
+
 # Runtime data
 pids
 *.pid
@@ -36,7 +39,7 @@ bower_components
 .cache
 .history
 .lib/
-#dist/*
+dist/*
 target/
 lib_managed/
 src_managed/
