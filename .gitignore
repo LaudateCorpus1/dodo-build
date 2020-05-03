@@ -39,7 +39,7 @@ bower_components
 .cache
 .history
 .lib/
-dist/*
+#dist/*
 target/
 lib_managed/
 src_managed/
