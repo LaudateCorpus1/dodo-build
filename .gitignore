@@ -1,5 +1,5 @@
-# Dependency directory
-node_modules
+# comment out in distribution branches
+/node_modules/
 
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
 # Logs
@@ -34,6 +34,49 @@ coverage
 
 # Bower dependency directory (https://bower.io/)
 bower_components
+
+# sbt specific
+.cache
+.history
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+**/.bloop
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+.idea
+
+# ENSIME specific
+.ensime_cache/
+.ensime
+
+.metals/
+metals.sbt
+
+.vscode/
+
+local.*
+
+.DS_Store
+
+node_modules
+
+lib/core/metadata.js
+lib/core/MetadataBlog.js
+
+website/translated_docs
+website/build/
+website/yarn.lock
+website/node_modules
+website/i18n/*
+!website/i18n/en.json
 
 # node-waf configuration
 .lock-wscript
