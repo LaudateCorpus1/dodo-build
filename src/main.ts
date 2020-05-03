@@ -1,6 +1,9 @@
 import * as core from '@actions/core'
 import { build } from "./build";
 
+const dryrun = "false";
+const dir = "";
+
 async function run(): Promise<void> {
     try {
         const branch = core.getInput("branch", { required: false });
@@ -9,7 +12,7 @@ async function run(): Promise<void> {
         const publishM2 = core.getInput("publish-m2", { required: false });
         const verbose = core.getInput("verbose", { required: false });
         console.log(`Running Dodo branch '${branch}', project '${project}', scalaVersion '${scalaVersion}'`);
-        await build("", branch, project, scalaVersion, publishM2, "false", verbose);
+        await build(dryrun, dir, branch, project, scalaVersion, publishM2, verbose);
     } catch (error) {
         core.setFailed(error.message);
     }

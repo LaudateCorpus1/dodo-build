@@ -4,20 +4,21 @@ import * as shell from "shelljs";
 import * as path from "path";
 
 const homedir = require("os").homedir();
+const dodoUrl = `https://raw.githubusercontent.com/twitter/dodo/develop/bin/build`;
 
-export async function build(outputDirectory: string, branch: string, project: string, scalaVersion: string, publishM2: string, dryRun: string, verbose: string) {
+export async function build(dryrun: string, dir: string, branch: string, project: string, scalaVersion: string, publishM2: string, verbose: string) {
     setEnvironmentVariableCI();
-    installAndRunDodo(outputDirectory, branch, project, scalaVersion, publishM2, dryRun, verbose);
+    installAndRunDodo(dryrun, dir, branch, project, scalaVersion, publishM2, verbose);
 }
 
 function setEnvironmentVariableCI() {
     core.exportVariable("CI", "true");
 }
 
-function installAndRunDodo(outputDirectory: string, branch: string, project: string, scalaVersion: string, publishM2: string, dryRun: string, verbose: string) {
+function installAndRunDodo(dryrun: string, dir: string, branch: string, project: string, scalaVersion: string, publishM2: string, verbose: string) {
     var bin = path.join(homedir, "bin");
-    if (outputDirectory != "") {
-        bin = path.join(outputDirectory, "bin")
+    if (dir != "") {
+        bin = path.join(dir, "bin")
     }
 
     core.startGroup("Install Dodo");
@@ -25,6 +26,10 @@ function installAndRunDodo(outputDirectory: string, branch: string, project: str
     var _project = project;
     if (project === "all") {
         _project = "--all";
+    }
+    var _scalaVersion = "";
+    if (scalaVersion != "all") {
+        _scalaVersion = " --scala-version " + scalaVersion;
     }
     var _publishM2 = "";
     if (publishM2 === "true") {
@@ -34,11 +39,11 @@ function installAndRunDodo(outputDirectory: string, branch: string, project: str
     if (verbose === "true") {
         _verbose = " --verbose"
     }
-    var _dryRun = "";
-    if (dryRun === "true") {
-        _dryRun = " --dry-run"
+    var _dryrun = "";
+    if (dryrun === "true") {
+        _dryrun = " --dry-run"
     }
-    const dodoUrl = `https://raw.githubusercontent.com/twitter/dodo/develop/bin/build`;
+    
     const exists = shell.ls(bin)
     if (exists.code > 0) {
         shell.mkdir(bin);
@@ -48,7 +53,7 @@ function installAndRunDodo(outputDirectory: string, branch: string, project: str
     shell.exec(`curl -sL -o ${dodo} ${dodoUrl}`, { silent: true });
     shell.chmod(755, dodo);
     console.log(`Running Dodo`);
-    const result = shell.exec(`${dodo} --no-test --scala-version ${scalaVersion}${_publishM2}${_dryRun}${_verbose} ${_project}`);
+    const result = shell.exec(`${dodo} --no-test${_scalaVersion}${_publishM2}${_dryrun}${_verbose} ${_project}`);
     if (result.code > 0) {
         core.setFailed(`Failed to run Dodo: ${result.stderr}`);
         return;

@@ -9,6 +9,7 @@ inputs:
     description: 'Project to build'
   scala-version:
     description: 'Scala version'
+    default: 'all'
   publish-m2:
     description: 'Also publish to local ~/.m2 repository'
     default: 'false'

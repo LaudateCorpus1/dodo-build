@@ -1864,6 +1864,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const build_1 = __webpack_require__(613);
+const dryrun = "false";
+const dir = "";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -1873,7 +1875,7 @@ function run() {
             const publishM2 = core.getInput("publish-m2", { required: false });
             const verbose = core.getInput("verbose", { required: false });
             console.log(`Running Dodo branch '${branch}', project '${project}', scalaVersion '${scalaVersion}'`);
-            yield build_1.build("", branch, project, scalaVersion, publishM2, "false", verbose);
+            yield build_1.build(dryrun, dir, branch, project, scalaVersion, publishM2, verbose);
         }
         catch (error) {
             core.setFailed(error.message);
@@ -5811,26 +5813,31 @@ const core = __importStar(__webpack_require__(470));
 const shell = __importStar(__webpack_require__(739));
 const path = __importStar(__webpack_require__(622));
 const homedir = __webpack_require__(87).homedir();
-function build(outputDirectory, branch, project, scalaVersion, publishM2, dryRun, verbose) {
+const dodoUrl = `https://raw.githubusercontent.com/twitter/dodo/develop/bin/build`;
+function build(dryrun, dir, branch, project, scalaVersion, publishM2, verbose) {
     return __awaiter(this, void 0, void 0, function* () {
         setEnvironmentVariableCI();
-        installAndRunDodo(outputDirectory, branch, project, scalaVersion, publishM2, dryRun, verbose);
+        installAndRunDodo(dryrun, dir, branch, project, scalaVersion, publishM2, verbose);
     });
 }
 exports.build = build;
 function setEnvironmentVariableCI() {
     core.exportVariable("CI", "true");
 }
-function installAndRunDodo(outputDirectory, branch, project, scalaVersion, publishM2, dryRun, verbose) {
+function installAndRunDodo(dryrun, dir, branch, project, scalaVersion, publishM2, verbose) {
     var bin = path.join(homedir, "bin");
-    if (outputDirectory != "") {
-        bin = path.join(outputDirectory, "bin");
+    if (dir != "") {
+        bin = path.join(dir, "bin");
     }
     core.startGroup("Install Dodo");
     core.addPath(bin);
     var _project = project;
     if (project === "all") {
         _project = "--all";
+    }
+    var _scalaVersion = "";
+    if (scalaVersion != "all") {
+        _scalaVersion = " --scala-version " + scalaVersion;
     }
     var _publishM2 = "";
     if (publishM2 === "true") {
@@ -5840,11 +5847,10 @@ function installAndRunDodo(outputDirectory, branch, project, scalaVersion, publi
     if (verbose === "true") {
         _verbose = " --verbose";
     }
-    var _dryRun = "";
-    if (dryRun === "true") {
-        _dryRun = " --dry-run";
+    var _dryrun = "";
+    if (dryrun === "true") {
+        _dryrun = " --dry-run";
     }
-    const dodoUrl = `https://raw.githubusercontent.com/twitter/dodo/develop/bin/build`;
     const exists = shell.ls(bin);
     if (exists.code > 0) {
         shell.mkdir(bin);
@@ -5854,7 +5860,7 @@ function installAndRunDodo(outputDirectory, branch, project, scalaVersion, publi
     shell.exec(`curl -sL -o ${dodo} ${dodoUrl}`, { silent: true });
     shell.chmod(755, dodo);
     console.log(`Running Dodo`);
-    const result = shell.exec(`${dodo} --no-test --scala-version ${scalaVersion}${_publishM2}${_dryRun}${_verbose} ${_project}`);
+    const result = shell.exec(`${dodo} --no-test${_scalaVersion}${_publishM2}${_dryrun}${_verbose} ${_project}`);
     if (result.code > 0) {
         core.setFailed(`Failed to run Dodo: ${result.stderr}`);
         return;
