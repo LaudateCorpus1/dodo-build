@@ -1,10 +1,20 @@
-name: 'Your name here'
+name: 'dodo-build'
 description: 'Provide a description here'
-author: 'Your name or organization here'
+author: 'cacoco'
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  branch:
+    description: 'Branch'
+    default: 'develop'
+  project:
+    description: 'Project to build'
+  scala-version:
+    description: 'Scala version'
+  publish-m2:
+    description: 'Also publish to local ~/.m2 repository'
+    default: 'false'
+  verbose:
+    description: 'Verbose'
+    default: 'false'
 runs:
   using: 'node12'
   main: 'dist/index.js'
