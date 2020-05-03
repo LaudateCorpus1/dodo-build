@@ -25,6 +25,15 @@ Note: it is best if this action is used with caches for maven, ivy, and the Dodo
 +       - uses: olafurpg/setup-scala@v7
 +         with:
 +           java-version: 1.8
++       - name: cache/dodo
++         uses: actions/cache@v1
++         with:
++           path: ~/.dodo
++           key: ${{ runner.os }}-dodo-
++       - name: dodo/run
++         uses: cacoco/dodo-build@v1
++         with:
++           project: scrooge
 +       - name: cache/maven
 +         uses: actions/cache@v1
 +         with:
@@ -42,15 +51,6 @@ Note: it is best if this action is used with caches for maven, ivy, and the Dodo
 +         with:
 +           path: ~/.ivy2/local/com.twitter
 +           key: ${{ runner.os }}-sbt-ivy-local-
-+       - name: cache/dodo
-+         uses: actions/cache@v1
-+         with:
-+           path: ~/.dodo
-+           key: ${{ runner.os }}-dodo-
-+       - name: dodo/run
-+         uses: cacoco/dodo-build@v1
-+         with:
-+           project: scrooge
     test:
 +     needs: dodo-build
       runs-on: ubuntu-latest
