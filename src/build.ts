@@ -6,44 +6,31 @@ import * as path from "path";
 const homedir = require("os").homedir();
 const dodoUrl = `https://raw.githubusercontent.com/twitter/dodo/develop/bin/build`;
 
-export async function build(dryrun: string, dir: string, branch: string, project: string, scalaVersion: string, publishM2: string, verbose: string) {
-    setEnvironmentVariableCI();
-    installAndRunDodo(dryrun, dir, branch, project, scalaVersion, publishM2, verbose);
-}
-
-function setEnvironmentVariableCI() {
-    core.exportVariable("CI", "true");
-}
-
-function installAndRunDodo(dryrun: string, dir: string, branch: string, project: string, scalaVersion: string, publishM2: string, verbose: string) {
-    var bin = path.join(homedir, "bin");
-    if (dir != "") {
-        bin = path.join(dir, "bin")
-    }
-
-    core.startGroup("Install Dodo");
-    core.addPath(bin);
-    var _project = project;
-    if (project === "all") {
-        _project = "--all";
-    }
-    var _scalaVersion = "";
-    if (scalaVersion != "all") {
-        _scalaVersion = " --scala-version " + scalaVersion;
-    }
-    var _publishM2 = "";
-    if (publishM2 === "true") {
-        _publishM2 = " --publish-m2";
-    }
-    var _verbose = "";
-    if (verbose === "true") {
-        _verbose = " --verbose"
-    }
-    var _dryrun = "";
-    if (dryrun === "true") {
-        _dryrun = " --dry-run"
-    }
+export async function build(
+    dryrun: string,
+    dir: string,
+    buildall: string,
+    clean: string,
+    cleanfiles: string,
+    include: string,
+    notest: string,
+    scalaversion: string,
+    clonehome: string,
+    local: string,
+    branch: string,
+    proxy: string,
+    publishm2: string,
+    sbtversion: string,
+    verbose: string,
+    trace: string,
+    project: string) {
     
+    setEnvironmentVariableCI();
+    
+    var bin = path.join(homedir, "bin");
+    if (dir != "") { bin = path.join(dir, "bin") }
+
+    core.addPath(bin);
     const exists = shell.ls(bin)
     if (exists.code > 0) {
         shell.mkdir(bin);
@@ -52,13 +39,57 @@ function installAndRunDodo(dryrun: string, dir: string, branch: string, project:
     shell.set("-ev");
     shell.exec(`curl -sL -o ${dodo} ${dodoUrl}`, { silent: true });
     shell.chmod(755, dodo);
-    console.log(`Running Dodo`);
-    const result = shell.exec(`${dodo} --no-test${_scalaVersion}${_publishM2}${_dryrun}${_verbose} ${_project}`);
+
+    const _dryrun = setToggleOption(dryrun, "dry-run");
+    const _all = setToggleOption(buildall, "all");
+    const _clean = setToggleOption(clean, "clean");
+    const _cleanfiles = setToggleOption(cleanfiles, "clean-files");
+    const _include = setToggleOption(include, "include");
+    const _notest = setToggleOption(notest, "no-test");
+    const _scalaversion = setValueOption(scalaversion, "scala-version");
+    const _clonehome = setValueOption(clonehome, "clone-dir");
+    const _local = setToggleOption(local, "local");
+    const _branch = setValueOption(branch, "branch");
+    const _proxy = setValueOption(proxy, "proxy");
+    const _publishm2 = setToggleOption(publishm2, "publish-m2");
+    const _verbose = setToggleOption(verbose, "verbose");
+    const _trace = setToggleOption(trace, "trace");
+    const _project = setOption(project);
+    
+    const result = shell.exec(`${dodo} ${_local}${_clean}${_cleanfiles}${_branch}${_notest}${_clonehome}${_proxy}${_scalaversion}${_publishm2}${_dryrun}${_verbose}${_all}${_include}${_project}`);
     if (result.code > 0) {
-        core.setFailed(`Failed to run Dodo: ${result.stderr}`);
+        core.setFailed(`Failed to run Dodo Build: ${result.stderr}`);
         return;
     }
     core.endGroup();
+}
+
+function setEnvironmentVariableCI() {
+    core.exportVariable("CI", "true");
+}
+
+function setToggleOption(inputOption: string, command: string) {
+    var opt = "";
+    if (inputOption && inputOption === "true") {
+        opt = ` --${command}`; 
+    }
+    return opt;
+}
+
+function setValueOption(inputOption: string, command: string) {
+    var opt = "";
+    if (inputOption) {
+        opt = ` --${command} ${inputOption}`;
+    }
+    return opt;
+}
+
+function setOption(inputOption: string) {
+    var opt = "";
+    if (inputOption) {
+        opt = ` ${inputOption}`;
+    }
+    return opt;
 }
 
 function curl(url: string, outputFile: string) {
