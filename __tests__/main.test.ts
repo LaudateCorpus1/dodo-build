@@ -12,16 +12,16 @@ test("build: branch=develop,project=fintara,scala-version=all,verbose=false", as
   await build("true", "/tmp", "", "", "", "", "", "", "", "", "", "", "", "", "false", "", "finatra");
 });
 
-test("build: branch=master,project=fintara,scala-version=2.12.8,verbose=true", async () => {
-  await build("true", "/tmp", "", "", "", "", "", "2.12.8", "", "", "master", "", "", "", "true", "", "finatra");
+test("build: branch=release,project=fintara,scala-version=2.12.8,verbose=true", async () => {
+  await build("true", "/tmp", "", "", "", "", "", "2.12.8", "", "", "release", "", "", "", "true", "", "finatra");
 });
 
-test("build: branch=master,project=finatra,scala-version=all,verbose=true", async () => {
-  await build("true", "/tmp", "", "", "", "", "", "", "", "", "master", "", "", "", "true", "", "finatra");
+test("build: branch=release,project=finatra,scala-version=all,verbose=true", async () => {
+  await build("true", "/tmp", "", "", "", "", "", "", "", "", "release", "", "", "", "true", "", "finatra");
 });
 
-test("build: branch=master,project=fintara,scala-version=all,verbose=false", async () => {
-  await build("true", "/tmp", "", "", "", "", "", "", "", "", "master", "", "", "", "false", "", "finatra");
+test("build: branch=release,project=fintara,scala-version=all,verbose=false", async () => {
+  await build("true", "/tmp", "", "", "", "", "", "", "", "", "release", "", "", "", "false", "", "finatra");
 });
 
 test("build: branch=develop,project=all,scala-version=2.12.8,verbose=true", async () => {
@@ -36,16 +36,16 @@ test("build: branch=develop,project=all,scala-version=all,verbose=false", async 
   await build("true", "/tmp", "true", "", "", "", "", "", "", "", "", "", "", "", "false", "", "");
 });
 
-test("build: branch=master,project=all,scala-version=2.12.8,verbose=true", async () => {
-  await build("true", "/tmp", "true", "", "", "", "", "2.12.8", "", "", "master", "", "", "", "true", "", "");
+test("build: branch=release,project=all,scala-version=2.12.8,verbose=true", async () => {
+  await build("true", "/tmp", "true", "", "", "", "", "2.12.8", "", "", "release", "", "", "", "true", "", "");
 });
 
-test("build: branch=master,project=all,scala-version=all,verbose=true", async () => {
-  await build("true", "/tmp", "true", "", "", "", "", "", "", "", "master", "", "", "", "true", "", "");
+test("build: branch=release,project=all,scala-version=all,verbose=true", async () => {
+  await build("true", "/tmp", "true", "", "", "", "", "", "", "", "release", "", "", "", "true", "", "");
 });
 
-test("build: branch=master,project=all,scala-version=all,verbose=false", async () => {
-  await build("true", "/tmp", "true", "", "", "", "", "", "", "", "master", "", "", "", "false", "", "");
+test("build: branch=release,project=all,scala-version=all,verbose=false", async () => {
+  await build("true", "/tmp", "true", "", "", "", "", "", "", "", "release", "", "", "", "false", "", "");
 });
 
 
