@@ -34,7 +34,9 @@
     "@zeit/ncc": "^0.20.5",
     "jest": "^24.9.0",
     "jest-circus": "^24.9.0",
+    "node-notifier": ">=8.0.1",
     "ts-jest": "^24.2.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "yargs-parser": ">=13.1.2"
   }
 }
