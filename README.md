@@ -1,4 +1,4 @@
-[![build-test](https://github.com/cacoco/dodo-build/workflows/build-test/badge.svg?branch=master)](https://github.com/cacoco/dodo-build/actions/)
+[![build-test](https://github.com/twitter/dodo-build/workflows/build-test/badge.svg?branch=master)](https://github.com/twitter/dodo-build/actions/)
 # Dodo Build Github Action
 
 A GitHub Action to run [Dodo](https://github.com/twitter/dodo), the Twitter OSS project builder.
@@ -19,9 +19,6 @@ Note: it is best if this action is used with caches for maven (when `publish-m2`
 +     runs-on: ubuntu-latest
 +     steps:
 +       - uses: actions/setup-java@v1
-+         with:
-+           java-version: 1.8
-+       - uses: olafurpg/setup-scala@v7
 +         with:
 +           java-version: 1.8
 +       - name: cache/maven
@@ -47,7 +44,7 @@ Note: it is best if this action is used with caches for maven (when `publish-m2`
 +           path: ~/.dodo
 +           key: ${{ runner.os }}-dodo-
 +       - name: dodo/run
-+         uses: cacoco/dodo-build@v2
++         uses: twitter/dodo-build@v3
 +         with:
 +           project: scrooge
 +           publish-m2: true
@@ -100,7 +97,7 @@ E.g.,
 explicitly set to 'false':
 
 ```
-uses: cacoco/dodo-build@v2
+uses: twitter/dodo-build@v3
 with:
   project: scrooge
   verbose: false
@@ -109,7 +106,7 @@ with:
 set to empty string:
 
 ```
-uses: cacoco/dodo-build@v2
+uses: twitter/dodo-build@v3
 with:
   project: scrooge
   verbose: ''
@@ -118,7 +115,7 @@ with:
 do not include (uses default):
 
 ```
-uses: cacoco/dodo-build@v2
+uses: twitter/dodo-build@v3
 with:
   project: scrooge
 ```
@@ -130,10 +127,10 @@ Other options expect values and setting them with the `dodo-build` action is str
 E.g.,
 
 ```
-uses: cacoco/dodo-build@v2
+uses: twitter/dodo-build@v3
 with:
   project: twitter-server
-  branch: master
+  branch: release
 ```
 
 Lastly, the `project` option is special and is expected to be the value of a supported project for which to build dependencies. It is meant to be specified last when included. When using the `dodo-build` action, include the key with a value as shown the above examples.
