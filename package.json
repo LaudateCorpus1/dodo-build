@@ -22,7 +22,7 @@
   "author": "cacoco",
   "license": "Apache-2.0",
   "dependencies": {
-    "@actions/core": "^1.2.6",
+    "@actions/core": "^1.9.1",
     "minimist": ">=0.2.1",
     "kind-of": ">=6.0.3",
     "shelljs": "^0.8.3"
